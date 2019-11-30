@@ -8,8 +8,8 @@ from text_summarizer import base
 class LeadSummarizer(base.BaseSummarizer):
 
     def __init__(self,
-                 language='english',
-                 preprocess_type='nltk',
+                 language='turkish',
+                 preprocess_type='zemberek',
                  length_limit=10,
                  stopwords_remove=True,
                  debug=False):

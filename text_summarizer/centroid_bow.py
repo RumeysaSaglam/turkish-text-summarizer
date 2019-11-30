@@ -10,8 +10,8 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
 class CentroidBOWSummarizer(base.BaseSummarizer):
 
     def __init__(self,
-                 language='english',
-                 preprocess_type='nltk',
+                 language='turkish',
+                 preprocess_type='zemberek',
                  stopwords_remove=True,
                  length_limit=10,
                  debug=False,

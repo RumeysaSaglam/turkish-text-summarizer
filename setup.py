@@ -6,10 +6,10 @@ with open('requirements.txt') as f:
 
 
 setup(
-    name='text_summarizer',
+    name='turkish_text_summarizer',
     version='0.1',
-    url='https://github.com/lambdaofgod/text-summarizer',
-    author='Jakub Bartczuk',
+    url='https://github.com/fourplusone41/turkish-text-summarizer',
+    author='Houssem MENHOUR',
     packages=find_packages(),
     install_requires=requirements
 )

@@ -3,8 +3,17 @@ Implementation based on paper:
 
 Centroid-based Text Summarization through Compositionality of Word Embeddings
 
+
+Original Implementation
+
 Author: Gaetano Rossiello
 Email: gaetano.rossiello@uniba.it
+
+
+Implementation for Turkish Language
+
+Author: Houssem MENHOUR
+Email: husmen93@gmail.com
 """
 from text_summarizer import base
 import numpy as np
@@ -48,17 +57,27 @@ def get_max_length(sentences):
 
 
 def load_gensim_embedding_model(model_name):
-    available_models = gensim_data_downloader.info()['models'].keys()
-    assert model_name in available_models, 'Invalid model_name: {}. Choose one from {}'.format(model_name, ', '.join(available_models))
-    model_path = gensim_data_downloader.load(model_name, return_path=True)
-    return KeyedVectors.load_word2vec_format(model_path, binary=True, unicode_errors='ignore')
+    if model_name == "word2vec_trwiki":
+        model_path = "word2vec_trwiki"
+        try:
+            model = KeyedVectors.load_word2vec_format(model_path, binary=True, unicode_errors='ignore')
+        except Exception as ex:
+            print("Exception: " + ex)
+        else:
+            return model
+    
+    else:
+        available_models = gensim_data_downloader.info()['models'].keys()
+        assert model_name in available_models, 'Invalid model_name: {}. Choose one from {}'.format(model_name, ', '.join(available_models))
+        model_path = gensim_data_downloader.load(model_name, return_path=True)
+        return KeyedVectors.load_word2vec_format(model_path, binary=True, unicode_errors='ignore')
 
 
 class CentroidWordEmbeddingsSummarizer(base.BaseSummarizer):
     def __init__(self,
                  embedding_model,
-                 language='english',
-                 preprocess_type='nltk',
+                 language='turkish',
+                 preprocess_type='zemberek',
                  stopwords_remove=True,
                  length_limit=10,
                  debug=False,
