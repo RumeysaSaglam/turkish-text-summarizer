@@ -6,8 +6,8 @@ with open('requirements.txt') as f:
 
 
 setup(
-    name='turkish_text_summarizer',
-    version='0.1',
+    name='text_summarizer',
+    version='0.2',
     url='https://github.com/fourplusone41/turkish-text-summarizer',
     author='Houssem MENHOUR',
     packages=find_packages(),

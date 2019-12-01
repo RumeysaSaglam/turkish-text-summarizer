@@ -10,9 +10,10 @@ from os.path import join
 from jpype import JClass, getDefaultJVMPath, shutdownJVM, startJVM, JString, java
 
 
-class zemberek(object):
-    def __init__(self):
-        ZEMBEREK_PATH: str = join('..', '..', 'bin', 'zemberek-full.jar')
+class Zemberek(object):
+    def __init__(self, zmbrk_path = '.'):
+        self.zmbrk_path = zmbrk_path
+        ZEMBEREK_PATH: str = join(self.zmbrk_path, 'zemberek-full.jar')
 
         startJVM(
             getDefaultJVMPath(),
@@ -74,11 +75,13 @@ class zemberek(object):
 
 
     def stopWords(self):
-        text_file = open("stop-words.tr.txt", "r")
-        lines = text_file.readlines()
+        lines = None
 
-        text_file.close()
-        return lines
+        with open(join(self.zmbrk_path, 'stop-words.tr.txt'), "r") as text_file:
+            lines = text_file.readlines()
+        stpwrds = [i.strip('\n') for i in lines]
+        return stpwrds
+        
 
     def __del__(self):
         shutdownJVM()
@@ -86,7 +89,7 @@ class zemberek(object):
 
 if __name__ == '__main__':
     paragraph = 'Prof. Dr. Veli Davul açıklama yaptı. Kimse %6.5 lik enflasyon oranını beğenmemiş!    Oysa maçta ikinci olmuştuk... Değil mi?'
-    zmbrk = zemberek()
+    zmbrk = Zemberek()
     zmbrk.sent_Tokenize(paragraph)
 
     str_ = 'Saat, 12:00'

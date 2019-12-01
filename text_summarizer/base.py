@@ -21,10 +21,10 @@ from scipy.spatial.distance import cosine
 from gensim.summarization.textcleaner import split_sentences as gensim_sent_tokenize
 import flashtext
 
-from zemberek import sent_tokenize as zmbrk_sent_tokenize
-from zemberek import word_tokenize as zmbrk_word_tokenize
-from zemberek import stopwords as zmbrk_stopwords
-
+from text_summarizer.zemberek import Zemberek
+#from zemberek import sent_tokenize as zmbrk_sent_tokenize
+#from zemberek import word_tokenize as zmbrk_word_tokenize
+#from zemberek import stopwords as zmbrk_stopwords
 
 def similarity(v1, v2):
     score = 0.0
@@ -46,13 +46,14 @@ class BaseSummarizer:
         self.language = language
         #Restrict Zemberek usage to only Turkish language
         self.preprocess_type = preprocess_type if (self.language == "turkish" or preprocess_type != 'zemberek') else 'nltk'
+        self.zmbrk = Zemberek() if self.preprocess_type == 'zemberek' else None
         self.stopwords_remove = stopwords_remove
         self.length_limit = length_limit
         self.debug = debug
         if stopwords_remove:
             stopword_remover = flashtext.KeywordProcessor()
             if self.preprocess_type == "zemberek":
-                for stopword in zmbrk_stopwords.words():
+                for stopword in self.zmbrk.stopwords.words():
                     stopword_remover.add_keyword(stopword, '')
             else:
                 for stopword in nltk_stopwords.words(self.language):
@@ -62,7 +63,7 @@ class BaseSummarizer:
 
     def sent_tokenize(self, text):
         if self.preprocess_type == 'zemberek':
-            sents = zmbrk_sent_tokenize(text)
+            sents = self.zmbrk.sent_tokenize(text)
         elif self.preprocess_type == 'nltk':
             sents = nltk_sent_tokenize(text, self.language)
         else:
@@ -81,7 +82,7 @@ class BaseSummarizer:
         for sent in sentences:
             if self.stopwords_remove:
                 self.stopword_remover.replace_keywords(sent)
-            words = zmbrk_word_tokenize(sent, self.language)
+            words = self.zmbrk.word_tokenize(sent, self.language)
             words = [w for w in words if w not in string.punctuation]
             words = [w for w in words if w not in self.extra_stopwords]
             words = [w.lower() for w in words]
