@@ -1,6 +1,6 @@
 """
 Zemberek: Python Interface for Zemberek Jar
-Inspired by: https://bit.ly/2JopMvt
+Inspired by and based on Berkay Öztürk work: https://github.com/ozturkberkay/Zemberek-Python-Examples
 
 Authors: Medine Aktaş, Rümeysa Sağlam
 Email: medneaktas@gmail.com, rumeysasaglam98@gmail.com
